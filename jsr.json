@@ -4,8 +4,5 @@
   "exports": "./src/index.ts",
   "license": "MIT",
   "description": "A robust, fluent Node.js client for controlling and monitoring Panasonic MirAIe Air Conditioners.",
-  "runtimes": [
-    "node",
-    "deno"
-  ]
+  "runtimes": ["node", "deno"]
 }
