@@ -1,4 +1,4 @@
-import { createSession, ConvertiMode, DisplayMode } from "../dist/index.mjs";
+import { createSession, ConvertiMode, DisplayMode, FluentDevice } from "../src/index.js";
 
 async function setOptimalCooling() {
   // 1. Initialize Session
@@ -12,7 +12,7 @@ async function setOptimalCooling() {
   const devices = await session.getDevices();
 
   // Extract topics and subscribe
-  const topics = devices.map((d) => `${(d as any).data.topic[0]}/status`);
+  const topics = devices.map((d: FluentDevice) => `${(d as any).data.topic[0]}/status`);
   await session.subscribeToTopics(topics);
 
   if (devices.length === 0) {
