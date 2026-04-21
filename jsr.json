@@ -1,6 +1,6 @@
 {
   "name": "@vivsh1999/miraie-ac-js",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "exports": "./src/index.ts",
   "license": "MIT",
   "description": "A robust, fluent JavaScript/TypeScript client for controlling and monitoring Panasonic MirAIe Air Conditioners."
