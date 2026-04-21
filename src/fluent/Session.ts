@@ -304,19 +304,21 @@ export class Session {
 
 /**
  * Creates a new Session by logging in with the given credentials.
- * @param credentials - The username and password for the MirAIe account.
+ * @param credentials - The username, password, and optional brokerUrl (useful for Browser environments requiring wss://).
  * @returns A promise that resolves to a Session instance.
  */
 export const createSession = async (credentials: {
   username: string;
   password: string;
+  brokerUrl?: string;
 }): Promise<Session> => {
   const token = await login(credentials.username, credentials.password);
 
   const homes = await fetchHomes(token.accessToken);
   const homeId = homes[0].homeId;
 
-  const mqttClient = createMqttClient("mqtts://mqtt.miraie.in:8883", {
+  const url = credentials.brokerUrl || "mqtts://mqtt.miraie.in:8883";
+  const mqttClient = createMqttClient(url, {
     username: homeId,
     password: token.accessToken,
   });

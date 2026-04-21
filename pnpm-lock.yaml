@@ -12,16 +12,10 @@ importers:
 
   .:
     dependencies:
-      '@types/mqtt':
-        specifier: ^2.5.0
-        version: 2.5.0
       mqtt:
         specifier: ^5.15.1
         version: 5.15.1
     devDependencies:
-      '@types/node':
-        specifier: ^25.5.0
-        version: 25.6.0
       '@typescript/native-preview':
         specifier: 7.0.0-dev.20260328.1
         version: 7.0.0-dev.20260328.1
@@ -452,10 +446,6 @@ packages:
 
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
-
-  '@types/mqtt@2.5.0':
-    resolution: {integrity: sha512-n+0/ErBin30j+UbhcHGK/STjHjh65k85WNR6NlUjRG0g9yctpF12pS+SOkwz0wmp+7momAo9Cyi4Wmvy8UsCQg==}
-    deprecated: This is a stub types definition for MQTT (https://github.com/mqttjs/MQTT.js). MQTT provides its own type definitions, so you don't need @types/mqtt installed!
 
   '@types/node@25.6.0':
     resolution: {integrity: sha512-+qIYRKdNYJwY3vRCZMdJbPLJAtGjQBudzZzdzwQYkEPQd+PJGixUL5QfvCLDaULoLv+RhT3LDkwEfKaAkgSmNQ==}
@@ -1317,14 +1307,6 @@ snapshots:
       assertion-error: 2.0.1
 
   '@types/deep-eql@4.0.2': {}
-
-  '@types/mqtt@2.5.0':
-    dependencies:
-      mqtt: 5.15.1
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
 
   '@types/node@25.6.0':
     dependencies:

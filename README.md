@@ -86,6 +86,10 @@ Creates and authenticates a new session.
 
 - `credentials.username` (string): Your registered mobile number (with country code, e.g., `+91XXXXXXXXXX`) or email address.
 - `credentials.password` (string): Your MirAIe password.
+- `credentials.brokerUrl` (string, optional): A custom MQTT broker URL. Defaults to the official MirAIe broker (`mqtts://mqtt.miraie.in:8883`).
+
+> **Note on Browser and Edge Environments (Cloudflare Workers):**
+> To use this client in a Browser or Cloudflare Worker, you must provide a WebSocket (`wss://`) broker URL. Since the official MirAIe broker currently only supports raw TCP (`mqtts://`), you will need to run an intermediate MQTT proxy/bridge (like Mosquitto configured for WebSockets) to use this package natively in edge/browser environments.
 
 **Returns:** `Promise<Session>`
 
