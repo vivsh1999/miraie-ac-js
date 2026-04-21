@@ -11,9 +11,18 @@ import {
   ConvertiMode,
 } from "../types/enums.js";
 
+/**
+ * A wrapper class that provides fluent API methods for controlling an AC device.
+ */
 export class FluentDevice {
   private status: any;
 
+  /**
+   * Internal constructor for FluentDevice.
+   * @param session The active Session.
+   * @param data The raw device data.
+   * @param details The raw device details.
+   */
   constructor(
     private session: Session,
     public data: any,
@@ -26,14 +35,26 @@ export class FluentDevice {
     });
   }
 
+  /**
+   * Gets the latest status of the device.
+   * @returns The status object.
+   */
   getStatus(): any {
     return this.status;
   }
 
+  /**
+   * Gets the details of the device.
+   * @returns The details object.
+   */
   getDetails(): any {
     return this.details;
   }
 
+  /**
+   * Gets the friendly name of the device.
+   * @returns The friendly name.
+   */
   getFriendlyName(): string {
     return this.data.deviceName;
   }
@@ -51,6 +72,10 @@ export class FluentDevice {
     });
   }
 
+  /**
+   * Turns on the device.
+   * @returns The FluentDevice instance for chaining.
+   */
   async turnOn(): Promise<this> {
     await publish(
       this.session.getMqttClient(),
@@ -60,6 +85,10 @@ export class FluentDevice {
     return this;
   }
 
+  /**
+   * Turns off the device.
+   * @returns The FluentDevice instance for chaining.
+   */
   async turnOff(): Promise<this> {
     await publish(
       this.session.getMqttClient(),
@@ -69,6 +98,11 @@ export class FluentDevice {
     return this;
   }
 
+  /**
+   * Sets the temperature of the device.
+   * @param temp The target temperature.
+   * @returns The FluentDevice instance for chaining.
+   */
   async setTemperature(temp: number): Promise<this> {
     await publish(
       this.session.getMqttClient(),
@@ -78,6 +112,11 @@ export class FluentDevice {
     return this;
   }
 
+  /**
+   * Sets the HVAC mode.
+   * @param mode The desired HVAC mode.
+   * @returns The FluentDevice instance for chaining.
+   */
   async setHvacMode(mode: HVACMode): Promise<this> {
     await publish(
       this.session.getMqttClient(),
@@ -87,6 +126,11 @@ export class FluentDevice {
     return this;
   }
 
+  /**
+   * Sets the fan mode.
+   * @param mode The desired fan mode.
+   * @returns The FluentDevice instance for chaining.
+   */
   async setFanMode(mode: FanMode): Promise<this> {
     await publish(
       this.session.getMqttClient(),
@@ -96,6 +140,11 @@ export class FluentDevice {
     return this;
   }
 
+  /**
+   * Sets the preset mode.
+   * @param mode The desired preset mode.
+   * @returns The FluentDevice instance for chaining.
+   */
   async setPresetMode(mode: PresetMode): Promise<this> {
     let payload: Record<string, any> = {};
     if (mode === PresetMode.NONE) {
@@ -112,6 +161,11 @@ export class FluentDevice {
     return this;
   }
 
+  /**
+   * Sets the vertical swing mode.
+   * @param mode The desired swing mode.
+   * @returns The FluentDevice instance for chaining.
+   */
   async setVSwingMode(mode: SwingMode): Promise<this> {
     await publish(
       this.session.getMqttClient(),
@@ -121,6 +175,11 @@ export class FluentDevice {
     return this;
   }
 
+  /**
+   * Sets the horizontal swing mode.
+   * @param mode The desired swing mode.
+   * @returns The FluentDevice instance for chaining.
+   */
   async setHSwingMode(mode: SwingMode): Promise<this> {
     await publish(
       this.session.getMqttClient(),
@@ -130,6 +189,11 @@ export class FluentDevice {
     return this;
   }
 
+  /**
+   * Sets the display mode.
+   * @param mode The desired display mode.
+   * @returns The FluentDevice instance for chaining.
+   */
   async setDisplayMode(mode: DisplayMode): Promise<this> {
     await publish(
       this.session.getMqttClient(),
@@ -139,6 +203,11 @@ export class FluentDevice {
     return this;
   }
 
+  /**
+   * Sets the converti mode.
+   * @param mode The desired converti mode.
+   * @returns The FluentDevice instance for chaining.
+   */
   async setConvertiMode(mode: ConvertiMode): Promise<this> {
     await publish(
       this.session.getMqttClient(),
@@ -149,19 +218,35 @@ export class FluentDevice {
   }
 }
 
+/**
+ * The Session class manages the connection to the MirAIe MQTT broker.
+ */
 export class Session {
   private token: string;
   private mqttClient: mqtt.MqttClient;
 
+  /**
+   * Internal constructor for Session.
+   * @param token The authentication token.
+   * @param mqttClient The active MQTT client.
+   */
   constructor(token: AuthToken, mqttClient: mqtt.MqttClient) {
     this.token = token.accessToken;
     this.mqttClient = mqttClient;
   }
 
+  /**
+   * Gets the underlying MQTT client.
+   * @returns The mqtt.MqttClient instance.
+   */
   getMqttClient(): mqtt.MqttClient {
     return this.mqttClient;
   }
 
+  /**
+   * Connects to the MQTT broker.
+   * @returns A promise that resolves when connected.
+   */
   async connect(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.mqttClient.on("connect", () => {
@@ -173,6 +258,11 @@ export class Session {
     });
   }
 
+  /**
+   * Subscribes to the given topics.
+   * @param topics The array of topic names to subscribe to.
+   * @returns A promise that resolves when subscribed.
+   */
   async subscribeToTopics(topics: string[]): Promise<void> {
     return new Promise((resolve, reject) => {
       this.mqttClient.subscribe(topics, (err) => {
@@ -182,6 +272,10 @@ export class Session {
     });
   }
 
+  /**
+   * Fetches the user's devices and creates FluentDevice wrappers.
+   * @returns A promise that resolves to an array of FluentDevices.
+   */
   async getDevices(): Promise<FluentDevice[]> {
     const homes = await fetchHomes(this.token);
     const devicesData = homes[0].spaces.flatMap((space: any) => space.devices);
@@ -195,6 +289,10 @@ export class Session {
     });
   }
 
+  /**
+   * Closes the MQTT connection.
+   * @returns A promise that resolves when the connection is closed.
+   */
   async close(): Promise<void> {
     return new Promise((resolve) => {
       this.mqttClient.end(false, () => {
@@ -204,6 +302,11 @@ export class Session {
   }
 }
 
+/**
+ * Creates a new Session by logging in with the given credentials.
+ * @param credentials - The username and password for the MirAIe account.
+ * @returns A promise that resolves to a Session instance.
+ */
 export const createSession = async (credentials: {
   username: string;
   password: string;
