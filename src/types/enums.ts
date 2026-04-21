@@ -1,8 +1,10 @@
+/** Enum for Display Mode settings */
 export enum DisplayMode {
   ON = "on",
   OFF = "off",
 }
 
+/** Enum for Fan Mode settings */
 export enum FanMode {
   AUTO = "auto",
   LOW = "low",
@@ -11,6 +13,7 @@ export enum FanMode {
   QUIET = "quiet",
 }
 
+/** Enum for HVAC Mode settings */
 export enum HVACMode {
   COOL = "cool",
   AUTO = "auto",
@@ -19,11 +22,13 @@ export enum HVACMode {
   HEAT = "heat",
 }
 
+/** Enum for Power Mode settings */
 export enum PowerMode {
   ON = "on",
   OFF = "off",
 }
 
+/** Enum for Preset Mode settings */
 export enum PresetMode {
   NONE = "none",
   ECO = "eco",
@@ -31,6 +36,7 @@ export enum PresetMode {
   CLEAN = "clean",
 }
 
+/** Enum for Swing Mode settings */
 export enum SwingMode {
   AUTO = 0,
   ONE = 1,
@@ -40,6 +46,7 @@ export enum SwingMode {
   FIVE = 5,
 }
 
+/** Enum for Converti Mode settings */
 export enum ConvertiMode {
   HC = 110,
   FC = 100,
@@ -52,6 +59,7 @@ export enum ConvertiMode {
   OFF = 0,
 }
 
+/** Enum for Consumption Period Type */
 export enum ConsumptionPeriodType {
   DAILY = "Daily",
   WEEKLY = "Weekly",
