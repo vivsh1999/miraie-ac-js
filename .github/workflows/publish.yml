@@ -6,11 +6,10 @@ on:
   workflow_dispatch: # Allows manual triggering
 
 jobs:
-  publish:
+  prepare:
     runs-on: ubuntu-latest
     permissions:
       contents: write # Required for committing and pushing updates back to main
-      id-token: write # Required for npm/jsr provenance
 
     steps:
       - name: Checkout repository
@@ -23,7 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: "https://registry.npmjs.org"
 
       - name: Sync Version and Commit
         if: github.event_name == 'release'
@@ -52,6 +50,26 @@ jobs:
             git push origin $GITHUB_REF_NAME -f
           fi
 
+  publish-npm:
+    needs: prepare
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for npm provenance
+    continue-on-error: true # Allow one publish to fail while the other succeeds
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main # Fetch the latest commit with the version bump
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+
       - name: Setup Vite+
         uses: voidzero-dev/setup-vp@v1
         with:
@@ -71,6 +89,42 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --access public --provenance
+
+  publish-jsr:
+    needs: prepare
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for jsr provenance
+    continue-on-error: true # Allow one publish to fail while the other succeeds
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main # Fetch the latest commit with the version bump
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          cache: true
+
+      - name: Install dependencies
+        run: vp install
+
+      - name: Check formatting and types
+        run: vp check
+
+      - name: Run tests
+        run: vp test
+
+      - name: Build project
+        run: vp pack
 
       - name: Publish to JSR
         run: npx jsr publish
