@@ -28,6 +28,15 @@ jobs:
         with:
           cache: true
 
+      - name: Install dependencies
+        run: vp install
+
+      - name: Check formatting and types
+        run: vp check
+
+      - name: Run tests
+        run: vp test
+
       - name: Sync Version and Commit
         if: github.event_name == 'release'
         run: |
@@ -86,12 +95,6 @@ jobs:
       - name: Install dependencies
         run: vp install
 
-      - name: Check formatting and types
-        run: vp check
-
-      - name: Run tests
-        run: vp test
-
       - name: Build project
         run: vp pack
 
@@ -124,12 +127,6 @@ jobs:
 
       - name: Install dependencies
         run: vp install
-
-      - name: Check formatting and types
-        run: vp check
-
-      - name: Run tests
-        run: vp test
 
       - name: Build project
         run: vp pack
