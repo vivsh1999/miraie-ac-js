@@ -23,6 +23,11 @@ jobs:
         with:
           node-version: 20
 
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          cache: true
+
       - name: Sync Version and Commit
         if: github.event_name == 'release'
         run: |
@@ -38,6 +43,9 @@ jobs:
 
           # Update jsr.json
           node -e "const fs = require('fs'); const jsr = JSON.parse(fs.readFileSync('jsr.json')); jsr.version = '$VERSION'; fs.writeFileSync('jsr.json', JSON.stringify(jsr, null, 2) + '\n');"
+
+          # Format json files with vp to ensure they pass CI
+          vp check --fix package.json jsr.json || true
 
           # Commit and Push if there are changes
           if [[ -n "$(git status --porcelain)" ]]; then
