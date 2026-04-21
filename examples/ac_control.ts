@@ -1,9 +1,4 @@
-import {
-  createSession,
-  ConvertiMode,
-  DisplayMode,
-  HVACMode,
-} from "../dist/index.mjs";
+import { createSession, ConvertiMode, DisplayMode } from "../dist/index.mjs";
 
 async function setOptimalCooling() {
   // 1. Initialize Session
@@ -49,12 +44,11 @@ async function setOptimalCooling() {
   console.log("Waiting 30 seconds before turning off display...");
   await new Promise((resolve) => setTimeout(resolve, 30000));
 
-  await   myAc.setDisplayMode(DisplayMode.OFF);
+  await myAc.setDisplayMode(DisplayMode.OFF);
   console.log("Configuration complete and display turned off.");
 
   await session.close();
   console.log("Session closed.");
 }
-
 
 setOptimalCooling().catch(console.error);

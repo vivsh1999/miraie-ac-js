@@ -1,4 +1,4 @@
-export { createSession } from './fluent/Session';
-export { Session, FluentDevice } from './fluent/Session';
-export * from './types/enums';
-export * from './types/auth';
+export { createSession } from "./fluent/Session.js";
+export { Session, FluentDevice } from "./fluent/Session.js";
+export * from "./types/enums.js";
+export * from "./types/auth.js";

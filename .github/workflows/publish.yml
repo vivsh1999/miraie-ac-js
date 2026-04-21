@@ -1,0 +1,46 @@
+name: Publish Packages
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for npm/jsr provenance
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          cache: true
+
+      - name: Install dependencies
+        run: vp install
+
+      - name: Check formatting and types
+        run: vp check
+
+      - name: Run tests
+        run: vp test
+
+      - name: Build project
+        run: vp pack
+
+      - name: Publish to npm
+        run: npm publish --access public --provenance
+
+      - name: Publish to JSR
+        run: npx jsr publish

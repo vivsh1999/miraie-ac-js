@@ -1,4 +1,4 @@
-import mqtt from 'mqtt';
+import mqtt from "mqtt";
 
 export const createMqttClient = (brokerUrl: string, options: mqtt.IClientOptions) => {
   return mqtt.connect(brokerUrl, options);
