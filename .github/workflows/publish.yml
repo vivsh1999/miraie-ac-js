@@ -9,12 +9,15 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write # Required for committing and pushing updates back to main
       id-token: write # Required for npm/jsr provenance
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: main # Check out main branch instead of detached tag
+          fetch-depth: 0 # Required to force update the tag later
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -22,18 +25,32 @@ jobs:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
 
-      - name: Sync Version from Release Tag
+      - name: Sync Version and Commit
         if: github.event_name == 'release'
         run: |
-          # Extract version from tag (e.g., v1.0.0 -> 1.0.0)
           VERSION=${GITHUB_REF_NAME#v}
           echo "Setting version to $VERSION"
+
+          # Setup Git
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           # Update package.json
           node -e "const fs = require('fs'); const pkg = JSON.parse(fs.readFileSync('package.json')); pkg.version = '$VERSION'; fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');"
 
           # Update jsr.json
           node -e "const fs = require('fs'); const jsr = JSON.parse(fs.readFileSync('jsr.json')); jsr.version = '$VERSION'; fs.writeFileSync('jsr.json', JSON.stringify(jsr, null, 2) + '\n');"
+
+          # Commit and Push if there are changes
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add package.json jsr.json
+            git commit --no-verify -m "chore: release v$VERSION [skip ci]"
+            git push origin main
+            
+            # Re-point the release tag to this new commit
+            git tag -f $GITHUB_REF_NAME
+            git push origin $GITHUB_REF_NAME -f
+          fi
 
       - name: Setup Vite+
         uses: voidzero-dev/setup-vp@v1
@@ -56,4 +73,4 @@ jobs:
         run: npm publish --access public --provenance
 
       - name: Publish to JSR
-        run: npx jsr publish --allow-dirty
+        run: npx jsr publish
