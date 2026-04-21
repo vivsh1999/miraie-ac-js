@@ -1,6 +1,8 @@
 # miraie-ac-js
 
 [![npm version](https://img.shields.io/npm/v/miraie-ac-js.svg)](https://npmjs.org/package/miraie-ac-js)
+[![JSR](https://jsr.io/badges/@<scope>/<package>)](https://jsr.io/@vivsh1999/miraie-ac-js)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A robust, fluent Node.js client for controlling and monitoring Panasonic MirAIe Air Conditioners.
