@@ -1,16 +1,16 @@
 {
-  "name": "miraie-ac",
+  "name": "miraie-ac-js",
   "version": "1.0.0",
-  "description": "A starter for creating a TypeScript package.",
-  "homepage": "https://github.com/author/library#readme",
+  "description": "A robust, fluent Node.js client for controlling and monitoring Panasonic MirAIe Air Conditioners.",
+  "homepage": "https://github.com/viveksharma/miraie-ac-js#readme",
   "bugs": {
-    "url": "https://github.com/author/library/issues"
+    "url": "https://github.com/viveksharma/miraie-ac-js/issues"
   },
   "license": "MIT",
-  "author": "Author Name <author.name@mail.com>",
+  "author": "Vivek Sharma <sharma.vivek2231999@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/author/library.git"
+    "url": "git+https://github.com/viveksharma/miraie-ac-js.git"
   },
   "files": [
     "dist"
