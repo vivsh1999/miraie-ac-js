@@ -1,7 +1,7 @@
 {
   "name": "miraie-ac-js",
   "version": "1.0.4",
-  "description": "A robust, fluent Node.js client for controlling and monitoring Panasonic MirAIe Air Conditioners.",
+  "description": "A robust, fluent JavaScript/TypeScript client for controlling and monitoring Panasonic MirAIe Air Conditioners.",
   "homepage": "https://github.com/vivsh1999/miraie-ac-js#readme",
   "bugs": {
     "url": "https://github.com/vivsh1999/miraie-ac-js/issues"
@@ -31,11 +31,9 @@
     "prepublishOnly": "vp run build"
   },
   "dependencies": {
-    "@types/mqtt": "^2.5.0",
     "mqtt": "^5.15.1"
   },
   "devDependencies": {
-    "@types/node": "^25.5.0",
     "@typescript/native-preview": "7.0.0-dev.20260328.1",
     "bumpp": "^11.0.1",
     "typescript": "^6.0.2",

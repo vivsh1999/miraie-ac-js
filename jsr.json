@@ -3,6 +3,5 @@
   "version": "1.0.4",
   "exports": "./src/index.ts",
   "license": "MIT",
-  "description": "A robust, fluent Node.js client for controlling and monitoring Panasonic MirAIe Air Conditioners.",
-  "runtimes": ["node", "deno"]
+  "description": "A robust, fluent JavaScript/TypeScript client for controlling and monitoring Panasonic MirAIe Air Conditioners."
 }
