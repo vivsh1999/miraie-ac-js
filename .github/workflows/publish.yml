@@ -22,6 +22,19 @@ jobs:
           node-version: 20
           registry-url: "https://registry.npmjs.org"
 
+      - name: Sync Version from Release Tag
+        if: github.event_name == 'release'
+        run: |
+          # Extract version from tag (e.g., v1.0.0 -> 1.0.0)
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "Setting version to $VERSION"
+
+          # Update package.json
+          node -e "const fs = require('fs'); const pkg = JSON.parse(fs.readFileSync('package.json')); pkg.version = '$VERSION'; fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');"
+
+          # Update jsr.json
+          node -e "const fs = require('fs'); const jsr = JSON.parse(fs.readFileSync('jsr.json')); jsr.version = '$VERSION'; fs.writeFileSync('jsr.json', JSON.stringify(jsr, null, 2) + '\n');"
+
       - name: Setup Vite+
         uses: voidzero-dev/setup-vp@v1
         with:
